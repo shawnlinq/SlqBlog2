@@ -11,7 +11,7 @@ from flask_principal import Identity, AnonymousIdentity, identity_changed
 
 from . import models, forms
 from permissions import admin_permission, su_permission
-from OctBlog.config import OctBlogSettings
+from SlqBlog.config import SlqBlogSettings
 
 def login():
     form = forms.LoginForm()
@@ -46,12 +46,12 @@ def logout():
     return redirect(url_for('accounts.login'))
 
 def register(create_su=False):
-    if not OctBlogSettings['allow_registration']:
+    if not SlqBlogSettings['allow_registration']:
         msg = 'Register is forbidden, please contact administrator'
         # return msg, 403
         abort(403, msg)
 
-    if create_su and not OctBlogSettings['allow_su_creation']:
+    if create_su and not SlqBlogSettings['allow_su_creation']:
         msg = 'Register superuser is forbidden, please contact administrator'
         # return msg, 403
         abort(403, msg)
@@ -65,7 +65,7 @@ def register(create_su=False):
 
         user.display_name = user.username
         
-        if create_su and OctBlogSettings['allow_su_creation']:
+        if create_su and SlqBlogSettings['allow_su_creation']:
             user.is_superuser = True
         user.save()
 

@@ -6,10 +6,10 @@ sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 # from flask.ext.script import Manager, Server
 from flask_script import Manager, Server
 
-# from OctBlog import create_app
+# from SlqBlog import create_app
 # app = create_app(os.getenv('config') or 'default')
 
-from OctBlog import app
+from SlqBlog import app
 
 
 manager = Manager(app)

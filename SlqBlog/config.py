@@ -3,18 +3,18 @@
 
 import os, sys, datetime
 
-OctBlogSettings = {
+SlqBlogSettings = {
     'post_types': ('post', 'page'), # deprecated
     'allow_registration': os.environ.get('allow_registration', 'false').lower() == 'true',
     'allow_su_creation': os.environ.get('allow_su_creation', 'false').lower() == 'true',
     'allow_donate': os.environ.get('allow_donate', 'true').lower() == 'true',
     'auto_role': os.environ.get('auto_role', 'reader').lower(),
     'blog_meta': {
-        'name': os.environ.get('name').decode('utf8') if os.environ.get('name') else 'Oct Blog',
-        'subtitle': os.environ.get('subtitle').decode('utf8') if os.environ.get('subtitle') else 'Oct Blog Subtitle',
-        'description': os.environ.get('description').decode('utf8') if os.environ.get('description') else 'Oct Blog Description',
-        'wechat_name': os.environ.get('wechat_name').decode('utf8') if os.environ.get('wechat_name') else 'Oct Blog Wechat Root',
-        'wechat_subtitle': os.environ.get('wechat_subtitle').decode('utf8') if os.environ.get('wechat_subtitle') else 'Oct Blog Wechat Subtitle',
+        'name': os.environ.get('name').decode('utf8') if os.environ.get('name') else 'Slq Blog',
+        'subtitle': os.environ.get('subtitle').decode('utf8') if os.environ.get('subtitle') else 'Slq Blog Subtitle',
+        'description': os.environ.get('description').decode('utf8') if os.environ.get('description') else 'Slq Blog Description',
+        'wechat_name': os.environ.get('wechat_name').decode('utf8') if os.environ.get('wechat_name') else 'Slq Blog Wechat Root',
+        'wechat_subtitle': os.environ.get('wechat_subtitle').decode('utf8') if os.environ.get('wechat_subtitle') else 'Slq Blog Wechat Subtitle',
         'owner': os.environ.get('owner').decode('utf8') if os.environ.get('owner') else 'Gevin',
         'keywords': os.environ.get('keywords').decode('utf8') if os.environ.get('keywords') else 'python,django,flask,docker,MongoDB',
         'google_site_verification': os.environ.get('google_site_verification') or '12345678',
@@ -31,10 +31,10 @@ OctBlogSettings = {
     },
     'blog_comment':{
         'allow_comment': os.environ.get('allow_comment', 'true').lower() == 'true',
-        'comment_type': os.environ.get('comment_type', 'octblog').lower(), # currently, OctBlog only supports duoshuo comment
+        'comment_type': os.environ.get('comment_type', 'slqblog').lower(), # currently, SlqBlog only supports duoshuo comment
         'comment_opt':{
-            'octblog': 'oct-blog', # shotname of octblog
-            'duoshuo': 'oct-blog', # shotname of duoshuo
+            'slqblog': 'slq-blog', # shotname of slqblog
+            'duoshuo': 'slq-blog', # shotname of duoshuo
             }
     },
     'donation': {
@@ -63,7 +63,7 @@ class Config(object):
     BASE_DIR = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'fjdljLJDL08_80jflKzcznv*c'
-    MONGODB_SETTINGS = {'DB': 'OctBlog'}
+    MONGODB_SETTINGS = {'DB': 'SlqBlog'}
 
     TEMPLATE_PATH = os.path.join(BASE_DIR, 'templates').replace('\\', '/')
     STATIC_PATH = os.path.join(BASE_DIR, 'static').replace('\\', '/')
@@ -86,7 +86,7 @@ class PrdConfig(Config):
     # DEBUG = False
     DEBUG = os.environ.get('DEBUG', 'false').lower() == 'true'
     MONGODB_SETTINGS = {
-            'db': 'OctBlog',
+            'db': 'SlqBlog',
             'host': os.environ.get('MONGO_HOST') or 'localhost',
             # 'port': 12345
         }
@@ -94,7 +94,7 @@ class PrdConfig(Config):
 class TestingConfig(Config):
     TESTING = True
     DEBUG = True
-    MONGODB_SETTINGS = {'DB': 'OctBlogTest'}
+    MONGODB_SETTINGS = {'DB': 'SlqBlogTest'}
     WTF_CSRF_ENABLED = False
 
 config = {

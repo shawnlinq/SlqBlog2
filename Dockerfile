@@ -20,7 +20,7 @@ ADD requirements.txt /usr/src/app/requirements.txt
 RUN pip install -r /usr/src/app/requirements.txt
 
 COPY . /usr/src/app
-RUN ln -s /usr/src/app/octblog_nginx.conf /etc/nginx/sites-enabled
+RUN ln -s /usr/src/app/slqblog_nginx.conf /etc/nginx/sites-enabled
 
 EXPOSE 8000 5000
 

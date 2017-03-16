@@ -1,6 +1,6 @@
 import unittest
 from flask import current_app, url_for
-from OctBlog import create_app, db
+from SlqBlog import create_app, db
 from accounts import models as accounts_models
 from main import models as main_models
 
@@ -23,10 +23,10 @@ class ModelTestCase(unittest.TestCase):
 
     # def test_register_and_login(self):
     #     response = self.client.post(url_for('accounts.register'), data={
-    #         'username': 'octblog',
-    #         'email': 'octblog@example.com',
-    #         'password': 'octblog',
-    #         'password2': 'octblog'
+    #         'username': 'slqblog',
+    #         'email': 'slqblog@example.com',
+    #         'password': 'slqblog',
+    #         'password2': 'slqblog'
     #     })
     #
     #     self.app.logger.debug(response.status_code)

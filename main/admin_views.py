@@ -12,11 +12,11 @@ import dateutil.parser
 from . import models, forms, signals
 from accounts.models import User
 from accounts.permissions import admin_permission, editor_permission, writer_permission, reader_permission
-from OctBlog.config import OctBlogSettings
+from SlqBlog.config import SlqBlogSettings
 
 POST_TYPES = models.POST_TYPE_CHOICES
-# POST_TYPES = OctBlogSettings['post_types']
-PER_PAGE = OctBlogSettings['pagination'].get('admin_per_page', 10)
+# POST_TYPES = SlqBlogSettings['post_types']
+PER_PAGE = SlqBlogSettings['pagination'].get('admin_per_page', 10)
 
 article_models = {
     'post': models.Post,
@@ -44,7 +44,7 @@ class AdminIndex(MethodView):
     template_name = 'blog_admin/index.html'
 
     def get(self):
-        blog_meta = OctBlogSettings['blog_meta']
+        blog_meta = SlqBlogSettings['blog_meta']
         user = get_current_user()
         return render_template(self.template_name, blog_meta=blog_meta, user=user)
 

@@ -1,6 +1,6 @@
 import unittest
 from flask import current_app
-from OctBlog import create_app, db
+from SlqBlog import create_app, db
 from accounts import models as accounts_models
 from main import models as main_models
 
@@ -18,26 +18,26 @@ class ModelTestCase(unittest.TestCase):
 
 
     def test_db_is_testing(self):
-        self.assertTrue(current_app.config['MONGODB_SETTINGS'].get('DB')=='OctBlogTest')
+        self.assertTrue(current_app.config['MONGODB_SETTINGS'].get('DB')=='SlqBlogTest')
 
 
     def test_create_user(self):
         user = accounts_models.User()
 
-        user.username = 'octblog'
-        user.email = 'octblog@example.com'
-        user.password = 'octblog_password'
+        user.username = 'slqblog'
+        user.email = 'slqblog@example.com'
+        user.password = 'slqblog_password'
         user.is_superuser = False
         user.role = 'editor'
-        user.display_name = 'OctBlog'
-        user.biography = 'Octblog description'
-        user.homepage_url = 'http://blog.igevin.info'
+        user.display_name = 'SlqBlog'
+        user.biography = 'Slqblog description'
+        user.homepage_url = 'http://www.shawnlinq.com'
 
         user.save()
 
-        created_user = accounts_models.User.objects.get(username='octblog')
+        created_user = accounts_models.User.objects.get(username='slqblog')
 
-        self.assertTrue(created_user is not None and created_user.email=='octblog@example.com')
+        self.assertTrue(created_user is not None and created_user.email=='slqblog@example.com')
 
     def test_create_post(self):
         post = main_models.Post()

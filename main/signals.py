@@ -2,13 +2,13 @@ from flask import request, current_app
 from blinker import Namespace
 
 from . import models, ext
-from OctBlog.config import OctBlogSettings
+from SlqBlog.config import SlqBlogSettings
 
-search_engine_submit_urls = OctBlogSettings['search_engine_submit_urls']
+search_engine_submit_urls = SlqBlogSettings['search_engine_submit_urls']
 
-octblog_signals = Namespace()
-post_visited = octblog_signals.signal('post-visited')
-post_pubished = octblog_signals.signal('post-published')
+slqblog_signals = Namespace()
+post_visited = slqblog_signals.signal('post-visited')
+post_pubished = slqblog_signals.signal('post-published')
 
 @post_visited.connect
 def on_post_visited(sender, post, **extra):

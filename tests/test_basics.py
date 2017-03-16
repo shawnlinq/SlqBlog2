@@ -1,6 +1,6 @@
 import unittest
 from flask import current_app
-from OctBlog import create_app
+from SlqBlog import create_app
 
 
 class BasicsTestCase(unittest.TestCase):

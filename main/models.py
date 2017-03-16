@@ -6,8 +6,8 @@ from flask import url_for
 
 import markdown2, bleach
 
-from OctBlog import db
-from OctBlog.config import OctBlogSettings
+from SlqBlog import db
+from SlqBlog.config import SlqBlogSettings
 from accounts.models import User
 
 def get_clean_html_content(html_content):
@@ -27,8 +27,8 @@ def get_clean_html_content(html_content):
 
 
 POST_TYPE_CHOICES = ('post', 'page', 'wechat')
-GAVATAR_CDN_BASE = OctBlogSettings['gavatar_cdn_base']
-GAVATAR_DEFAULT_IMAGE = OctBlogSettings['gavatar_default_image']
+GAVATAR_CDN_BASE = SlqBlogSettings['gavatar_cdn_base']
+GAVATAR_DEFAULT_IMAGE = SlqBlogSettings['gavatar_default_image']
 
 class Post(db.Document):
     title = db.StringField(max_length=255, default='new blog', required=True)

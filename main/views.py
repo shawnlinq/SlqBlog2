@@ -18,16 +18,16 @@ from mongoengine.queryset.visitor import Q
 from . import models, signals, forms
 from accounts.models import User
 from accounts.permissions import admin_permission, editor_permission, writer_permission, reader_permission
-from OctBlog.config import OctBlogSettings
+from SlqBlog.config import SlqBlogSettings
 
 
-PER_PAGE = OctBlogSettings['pagination'].get('per_page', 10)
-ARCHIVE_PER_PAGE = OctBlogSettings['pagination'].get('archive_per_page', 10)
+PER_PAGE = SlqBlogSettings['pagination'].get('per_page', 10)
+ARCHIVE_PER_PAGE = SlqBlogSettings['pagination'].get('archive_per_page', 10)
 
 
 def get_base_data():
     pages = models.Post.objects.filter(post_type='page', is_draft=False)
-    blog_meta = OctBlogSettings['blog_meta']
+    blog_meta = SlqBlogSettings['blog_meta']
     data = {'blog_meta':blog_meta, 'pages':pages}
     return data
 
@@ -150,30 +150,30 @@ def post_detail(slug, post_type='post', fix=False, is_preview=False):
         # print session.get('email')
 
 
-    if request.form.get('oct-comment') and form.validate_on_submit():
-        octblog_create_comment(form, post)
+    if request.form.get('slq-comment') and form.validate_on_submit():
+        slqblog_create_comment(form, post)
         url = '{0}#comment'.format(url_for('main.post_detail', slug=slug))
         msg = 'Succeed to comment, and it will be displayed when the administrator reviews it.'
         flash(msg, 'success')
         return redirect(url)
 
-    data['allow_donate'] = OctBlogSettings['donation']['allow_donate']
-    data['donation_msg'] = OctBlogSettings['donation']['donation_msg']
+    data['allow_donate'] = SlqBlogSettings['donation']['allow_donate']
+    data['donation_msg'] = SlqBlogSettings['donation']['donation_msg']
 
-    data['display_wechat'] = OctBlogSettings['wechat']['display_wechat']
-    data['wechat_msg'] = OctBlogSettings['wechat']['wechat_msg']
+    data['display_wechat'] = SlqBlogSettings['wechat']['display_wechat']
+    data['wechat_msg'] = SlqBlogSettings['wechat']['wechat_msg']
 
-    data['display_copyright'] = OctBlogSettings['copyright']['display_copyright']
-    data['copyright_msg'] = OctBlogSettings['copyright']['copyright_msg']
+    data['display_copyright'] = SlqBlogSettings['copyright']['display_copyright']
+    data['copyright_msg'] = SlqBlogSettings['copyright']['copyright_msg']
 
-    data['allow_comment'] = OctBlogSettings['blog_comment']['allow_comment']
+    data['allow_comment'] = SlqBlogSettings['blog_comment']['allow_comment']
     if data['allow_comment']:
-        comment_type = OctBlogSettings['blog_comment']['comment_type']
-        comment_shortname = OctBlogSettings['blog_comment']['comment_opt'][comment_type]
+        comment_type = SlqBlogSettings['blog_comment']['comment_type']
+        comment_shortname = SlqBlogSettings['blog_comment']['comment_opt'][comment_type]
         comment_func = get_comment_func(comment_type)
         data['comment_html'] = comment_func(slug, post.title, request.base_url, comment_shortname, form=form) if comment_func else ''
 
-    data['allow_share_article'] = OctBlogSettings['allow_share_article']
+    data['allow_share_article'] = SlqBlogSettings['allow_share_article']
     # if data['allow_share_article']:
     #     data['share_html'] = jiathis_share()
 
@@ -222,13 +222,13 @@ def get_comment_func(comment_type):
     # else:
     #     return None
     comment_func = {
-        'octblog': octblog_comment,
+        'slqblog': slqblog_comment,
         'duoshuo': duoshuo_comment,
     }
 
     return comment_func.get(comment_type)
 
-def octblog_comment(post_id, post_title, post_url, comment_shortname, form=None, *args, **kwargs):
+def slqblog_comment(post_id, post_title, post_url, comment_shortname, form=None, *args, **kwargs):
     template_name = 'main/comments.html'
     comments = models.Comment.objects(post_slug=post_id, status='approved').order_by('pub_time')
     # print comments[0].get_gavatar_url()
@@ -249,7 +249,7 @@ def octblog_comment(post_id, post_title, post_url, comment_shortname, form=None,
     }
     return render_template(template_name, **data)
 
-def octblog_create_comment(form, post):
+def slqblog_create_comment(form, post):
     comment = models.Comment()
     comment.author = form.author.data.strip()
     comment.email = form.email.data.strip()
@@ -326,23 +326,23 @@ def get_post_footer(allow_donate=False, donation_msg=None,
     return render_template(template_name, **data)
 
 def recent_feed():
-    feed_title = OctBlogSettings['blog_meta']['name']
+    feed_title = SlqBlogSettings['blog_meta']['name']
     feed = AtomFeed(feed_title, feed_url=request.url, url=request.url_root)
 
     # data = {}
-    # data['allow_donate'] = OctBlogSettings['donation']['allow_donate']
-    # data['donation_msg'] = OctBlogSettings['donation']['donation_msg']
+    # data['allow_donate'] = SlqBlogSettings['donation']['allow_donate']
+    # data['donation_msg'] = SlqBlogSettings['donation']['donation_msg']
 
-    # data['display_wechat'] = OctBlogSettings['wechat']['display_wechat']
-    # data['wechat_msg'] = OctBlogSettings['wechat']['wechat_msg']
+    # data['display_wechat'] = SlqBlogSettings['wechat']['display_wechat']
+    # data['wechat_msg'] = SlqBlogSettings['wechat']['wechat_msg']
 
-    # data['display_copyright'] = OctBlogSettings['copyright']['display_copyright']
-    # data['copyright_msg'] = OctBlogSettings['copyright']['copyright_msg']
+    # data['display_copyright'] = SlqBlogSettings['copyright']['display_copyright']
+    # data['copyright_msg'] = SlqBlogSettings['copyright']['copyright_msg']
 
     # post_footer = get_post_footer(**data)
 
     posts = models.Post.objects.filter(post_type='post', is_draft=False)[:15]
-    only_abstract_in_feed = OctBlogSettings['only_abstract_in_feed']
+    only_abstract_in_feed = SlqBlogSettings['only_abstract_in_feed']
     content = 'abstract' if only_abstract_in_feed else 'content_html'
     for post in posts:
         # return post.get_absolute_url()
