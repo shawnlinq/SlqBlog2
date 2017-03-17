@@ -10,9 +10,9 @@ SlqBlogSettings = {
     'allow_donate': os.environ.get('allow_donate', 'true').lower() == 'true',
     'auto_role': os.environ.get('auto_role', 'reader').lower(),
     'blog_meta': {
-        'name': os.environ.get('name').decode('utf8') if os.environ.get('name') else 'Slq Blog',
-        'subtitle': os.environ.get('subtitle').decode('utf8') if os.environ.get('subtitle') else '记录点滴',
-        'description': os.environ.get('description').decode('utf8') if os.environ.get('description') else '记录点滴',
+        'name': os.environ.get('name').decode('utf8') if os.environ.get('name') else "Shawn's Blog",
+        'subtitle': os.environ.get('subtitle').decode('utf8') if os.environ.get('subtitle') else "The World's a Stage",
+        'description': os.environ.get('description').decode('utf8') if os.environ.get('description') else "Shawn's Blog",
         'wechat_name': os.environ.get('wechat_name').decode('utf8') if os.environ.get('wechat_name') else 'Slq Blog Wechat Root',
         'wechat_subtitle': os.environ.get('wechat_subtitle').decode('utf8') if os.environ.get('wechat_subtitle') else 'Slq Blog Wechat Subtitle',
         'owner': os.environ.get('owner').decode('utf8') if os.environ.get('owner') else 'shawnlinq',
