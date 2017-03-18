@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import datetime, hashlib, urllib
+import datetime, hashlib, urllib.request, urllib.parse, urllib.error
 from flask import url_for
 
 import markdown2, bleach
@@ -238,7 +238,7 @@ class Comment(db.Document):
             params['d'] = default_image_url
 
         if params:
-            gavatar_url = '{0}?{1}'.format(gavatar_url, urllib.urlencode(params))
+            gavatar_url = '{0}?{1}'.format(gavatar_url, urllib.parse.urlencode(params))
 
         return gavatar_url
 

@@ -46,7 +46,7 @@ class User(UserMixin, db.Document):
 
     def get_id(self):
         try:
-            return unicode(self.username)
+            return str(self.username)
         except AttributeError:
             raise NotImplementedError('No `username` attribute - override `get_id`')
 

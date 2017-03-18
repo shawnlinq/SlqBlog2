@@ -10,13 +10,13 @@ SlqBlogSettings = {
     'allow_donate': os.environ.get('allow_donate', 'true').lower() == 'true',
     'auto_role': os.environ.get('auto_role', 'reader').lower(),
     'blog_meta': {
-        'name': os.environ.get('name').decode('utf8') if os.environ.get('name') else "Shawn's Blog",
-        'subtitle': os.environ.get('subtitle').decode('utf8') if os.environ.get('subtitle') else "The World is a Stage",
-        'description': os.environ.get('description').decode('utf8') if os.environ.get('description') else "Shawn's Blog",
-        'wechat_name': os.environ.get('wechat_name').decode('utf8') if os.environ.get('wechat_name') else 'Slq Blog Wechat Root',
-        'wechat_subtitle': os.environ.get('wechat_subtitle').decode('utf8') if os.environ.get('wechat_subtitle') else 'Slq Blog Wechat Subtitle',
-        'owner': os.environ.get('owner').decode('utf8') if os.environ.get('owner') else 'shawnlinq',
-        'keywords': os.environ.get('keywords').decode('utf8') if os.environ.get('keywords') else 'python,django,flask,docker,MongoDB',
+        'name': os.environ.get('name') if os.environ.get('name') else "Shawn's Blog",
+        'subtitle': os.environ.get('subtitle') if os.environ.get('subtitle') else "The World is a Stage",
+        'description': os.environ.get('description') if os.environ.get('description') else "Shawn's Blog",
+        'wechat_name': os.environ.get('wechat_name') if os.environ.get('wechat_name') else 'Slq Blog Wechat Root',
+        'wechat_subtitle': os.environ.get('wechat_subtitle') if os.environ.get('wechat_subtitle') else 'Slq Blog Wechat Subtitle',
+        'owner': os.environ.get('owner') if os.environ.get('owner') else 'shawnlinq',
+        'keywords': os.environ.get('keywords') if os.environ.get('keywords') else 'python,django,flask,docker,MongoDB',
         'google_site_verification': os.environ.get('google_site_verification') or '12345678',
         'baidu_site_verification': os.environ.get('baidu_site_verification') or '87654321',
         'sogou_site_verification': os.environ.get('sogou_site_verification') or '87654321',
@@ -39,15 +39,15 @@ SlqBlogSettings = {
     },
     'donation': {
         'allow_donate': os.environ.get('allow_donate', 'true').lower() == 'true',
-        'donation_msg': os.environ.get('donation_msg', 'You can donate to me if the article makes sense to you').decode('utf8')
+        'donation_msg': os.environ.get('donation_msg', 'You can donate to me if the article makes sense to you')
     },
     'wechat': {
         'display_wechat': os.environ.get('display_wechat', 'true').lower() == 'true',
-        'wechat_msg': os.environ.get('wechat_msg', 'Welcome to follow my wechat').decode('utf8')
+        'wechat_msg': os.environ.get('wechat_msg', 'Welcome to follow my wechat')
     },
     'copyright': {
         'display_copyright': os.environ.get('allow_donate', 'true').lower() == 'true',
-        'copyright_msg': os.environ.get('copyright_msg', 'The article is not allowed to repost unless author authorized').decode('utf8')
+        'copyright_msg': os.environ.get('copyright_msg', 'The article is not allowed to repost unless author authorized')
     },
     'only_abstract_in_feed': os.environ.get('only_abstract_in_feed', 'false').lower() == 'true',
     'allow_share_article': os.environ.get('allow_share_article', 'true').lower() == 'true',
