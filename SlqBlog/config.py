@@ -39,15 +39,15 @@ SlqBlogSettings = {
     },
     'donation': {
         'allow_donate': os.environ.get('allow_donate', 'true').lower() == 'true',
-        'donation_msg': os.environ.get('donation_msg', 'You can donate to me if the article makes sense to you')
+        'donation_msg': os.environ.get('donation_msg', '如果文章对你有价值，请对我打赏')
     },
     'wechat': {
         'display_wechat': os.environ.get('display_wechat', 'true').lower() == 'true',
-        'wechat_msg': os.environ.get('wechat_msg', 'Welcome to follow my wechat')
+        'wechat_msg': os.environ.get('wechat_msg', '欢迎关注我的微信公众号，获得及时更新动态')
     },
     'copyright': {
         'display_copyright': os.environ.get('allow_donate', 'true').lower() == 'true',
-        'copyright_msg': os.environ.get('copyright_msg', 'The article is not allowed to repost unless author authorized')
+        'copyright_msg': os.environ.get('copyright_msg', '未经作者许可，请勿转载')
     },
     'only_abstract_in_feed': os.environ.get('only_abstract_in_feed', 'false').lower() == 'true',
     'allow_share_article': os.environ.get('allow_share_article', 'true').lower() == 'true',
