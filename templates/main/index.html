@@ -47,13 +47,13 @@
                 <li class="next">
                     <a href="?page={{ posts.next_num }}
                         {%- if cur_category %}&category={{ cur_category }}{% endif %}
-                        {%- if cur_tag %}&tag={{ cur_tag }}{% endif %}">Older Posts &rarr;</a>
+                        {%- if cur_tag %}&tag={{ cur_tag }}{% endif %}">下一页 &rarr;</a>
                 </li>
                 {% endif %}
                 {% if posts.has_prev %}
                     <li class="next"><a href="?page={{ posts.prev_num }}
                         {%- if cur_category %}&category={{ cur_category }}{% endif %}
-                        {%- if cur_tag %}&tag={{ cur_tag }}{% endif %}">Previous Posts</a></li>
+                        {%- if cur_tag %}&tag={{ cur_tag }}{% endif %}">&larr; 上一页</a></li>
                 {% endif %}
             </ul>
         </div>
