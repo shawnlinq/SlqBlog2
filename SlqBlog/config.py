@@ -39,7 +39,7 @@ SlqBlogSettings = {
     },
     'donation': {
         'allow_donate': os.environ.get('allow_donate', 'true').lower() == 'true',
-        'donation_msg': os.environ.get('donation_msg', '如果文章对你有价值，请Shawn喝杯咖啡吧')
+        'donation_msg': os.environ.get('donation_msg', '如果文章对你有价值，请Shawn喝杯咖啡吧，金额随意')
     },
     'wechat': {
         'display_wechat': os.environ.get('display_wechat', 'true').lower() == 'true',
