@@ -25,7 +25,7 @@ SlqBlogSettings = {
         'baidu': os.environ.get('baidu_submit_url')
     },
     'pagination':{
-        'per_page': int(os.environ.get('per_page', 5)),
+        'per_page': int(os.environ.get('per_page', 8)),
         'admin_per_page': int(os.environ.get('admin_per_page', 10)),
         'archive_per_page': int(os.environ.get('admin_per_page', 20)),
     },

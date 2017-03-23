@@ -110,6 +110,24 @@
                 {% endfor %}
             </div>
 
+            <h3>微信公众号{{ wechat_msg }} <i class="fa fa-weixin" aria-hidden="true"></i></h3><hr/>
+                <div>
+                    <img src="http://omyahpaum.bkt.clouddn.com/blog/20170317/163519898.jpg" title="ShawnView">
+                </div>
+            <h3>联系方式{{ homepage }} <i class="fa fa-home" aria-hidden="true"></i></h3><hr/>
+                <p><a href="https://github.com/shawnlinq" target="_blank"><i class="fa fa-github fa-lg"></i>GitHub</a></p>
+                <p><a href="https://twitter.com/ShawnLinQ" target="_blank"><i class="fa fa-twitter fa-lg"></i>Twitter</a></p>
+                <p><a href="https://www.facebook.com/shawn.lin.161009" target="_blank"><i class="fa fa-facebook fa-lg"></i>FaceBook</a></p>
+                <!-- <p><a href="https://github.com/shawnlinq" target="_blank"><i class="fa fa-linkedin fa-lg"></i>Linkedln</a></p> -->
+                <p><a onclick="return click_a('hotmail')" style="cursor:pointer;"><i class="fa fa-envelope fa-lg"></i>Hotmail</a></p>
+                <div id="hotmail" style="display:none;"><b>shawn_linq@hotmail.com</b></div>
+                <!-- <p><a href="https://github.com/shawnlinq" target="_blank"><i class="fa fa-weibo fa-lg"></i>新浪微博</a></p> -->
+                <p><a onclick="return click_a('weixin')" style="cursor:pointer;"><i class="fa fa-weixin fa-lg"></i>个人微信</a></p>
+                <div id="weixin" style="display:none;">
+                    <img src="http://omyahpaum.bkt.clouddn.com/blog/20170323/174946522.jpg" title="Shawn's WeChat">
+                </div>
+
+
 
             {% for widget in widgets %}
             <h3>{{ widget.title | safe }}</h3><hr/>
@@ -126,6 +144,7 @@
 {% endblock %}
 
 {% block js %}
+
 <script type="text/javascript">
 $('.rm-filter').on('click', function (event) {
 
@@ -133,4 +152,24 @@ $('.rm-filter').on('click', function (event) {
     return false;
   });
 </script>
+  <!-- 鼠标点击显示模块 -->
+<script language="javascript" type="text/javascript">
+    /***
+     *功能：隐藏和显示div
+     * *参数divDisplay：html标签id
+     ***/
+    function click_a(divDisplay)
+    {
+        if(document.getElementById(divDisplay).style.display != "block")
+        {
+            document.getElementById(divDisplay).style.display = "block";
+        }
+        else
+        {
+            document.getElementById(divDisplay).style.display = "none";
+        }
+    }
+</script>
+
+
 {% endblock %}
