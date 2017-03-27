@@ -16,16 +16,18 @@ SlqBlogSettings = {
         'wechat_name': os.environ.get('wechat_name') if os.environ.get('wechat_name') else 'Slq Blog Wechat Root',
         'wechat_subtitle': os.environ.get('wechat_subtitle') if os.environ.get('wechat_subtitle') else 'Slq Blog Wechat Subtitle',
         'owner': os.environ.get('owner') if os.environ.get('owner') else 'shawnlinq',
-        'keywords': os.environ.get('keywords') if os.environ.get('keywords') else 'python,django,flask,docker,MongoDB',
-        'google_site_verification': os.environ.get('google_site_verification') or '12345678',
-        'baidu_site_verification': os.environ.get('baidu_site_verification') or '87654321',
-        'sogou_site_verification': os.environ.get('sogou_site_verification') or '87654321',
+        'keywords': os.environ.get('keywords') if os.environ.get('keywords') else 'python,django,flask,markdown,MongoDB',
+        'google_site_verification': os.environ.get('google_site_verification') or 'nd-uzkrk3H1c_Be19bYQsmpbpDwWH5dIigRE9mUpNz8',
+        'baidu_site_verification': os.environ.get('baidu_site_verification') or 'CHGIj3UoVk',
+        'sogou_site_verification': os.environ.get('sogou_site_verification') or 'CJqu0SLnt0',
+        'bing_site_verification': os.environ.get('bing_site_verification') or '342C90C1E0E3B92988AC6C1A01179D10',
+        'get360_site_verification': os.environ.get('get360_site_verification') or 'b4a1b4b922c4169b6e73e7dbc768d54c',
     },
     'search_engine_submit_urls':{
         'baidu': os.environ.get('baidu_submit_url')
     },
     'pagination':{
-        'per_page': int(os.environ.get('per_page', 8)),
+        'per_page': int(os.environ.get('per_page', 10)),
         'admin_per_page': int(os.environ.get('admin_per_page', 10)),
         'archive_per_page': int(os.environ.get('admin_per_page', 20)),
     },
