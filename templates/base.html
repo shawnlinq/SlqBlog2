@@ -46,7 +46,6 @@
       type="application/atom+xml">
 
     {% block custom_head %}{% endblock %}
-     <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
     <style> html{display : none ; } </style> 
     <script>
     if( self == top ) {
@@ -146,7 +145,7 @@
                             </a>
                         </li>
                     </ul>
-                    <p class="copyright text-muted">Copyright &copy; SlQ Blog 2017  |  <span id="busuanzi_container_site_pv">你是第<span id="busuanzi_value_site_pv"></span>来访者</span></p>
+                    <p class="copyright text-muted">Copyright &copy; SlQ Blog 2017  |  <span id="busuanzi_container_site_pv">你是第<span id="busuanzi_value_site_pv"></span>位来访者</span></p>
                     <p></p>
                 </div>
             </div>
@@ -159,6 +158,19 @@
     <!-- Custom Theme JavaScript -->
     <script src="//cdn.bootcss.com/highlight.js/9.9.0/highlight.min.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
+    <!-- busuanzi container -->
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <!-- google analytics -->
+    <script>
+       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+       })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+       ga('create', 'UA-96177669-1', 'auto');
+       ga('send', 'pageview');
+    </script>
+    <!-- end google analytics -->
     {% block js %}
     {% endblock %}
 </body>
