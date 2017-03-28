@@ -12,7 +12,7 @@ SlqBlogSettings = {
     'blog_meta': {
         'name': os.environ.get('name') if os.environ.get('name') else "Shawn's Blog",
         'subtitle': os.environ.get('subtitle') if os.environ.get('subtitle') else "The World is a Stage",
-        'description': os.environ.get('description') if os.environ.get('description') else "Shawn's Blog provides programming skills and techniques. It is powered by Flask and MongoDB",
+        'description': os.environ.get('description') if os.environ.get('description') else "一个分享编程经验、学习技巧、各类资源汇总的个人博客",
         'wechat_name': os.environ.get('wechat_name') if os.environ.get('wechat_name') else 'Slq Blog Wechat Root',
         'wechat_subtitle': os.environ.get('wechat_subtitle') if os.environ.get('wechat_subtitle') else 'Slq Blog Wechat Subtitle',
         'owner': os.environ.get('owner') if os.environ.get('owner') else 'shawnlinq',
@@ -27,7 +27,7 @@ SlqBlogSettings = {
         'baidu': os.environ.get('baidu_submit_url')
     },
     'pagination':{
-        'per_page': int(os.environ.get('per_page', 10)),
+        'per_page': int(os.environ.get('per_page', 6)),
         'admin_per_page': int(os.environ.get('admin_per_page', 10)),
         'archive_per_page': int(os.environ.get('admin_per_page', 20)),
     },
