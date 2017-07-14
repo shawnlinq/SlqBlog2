@@ -1,15 +1,11 @@
 import os
-
 from flask import Flask
-# from flask.ext.mongoengine import MongoEngine
-# from flask.ext.login import LoginManager
-# from flask.ext.principal import Principal 
 from flask_mongoengine import MongoEngine
 from flask_login import LoginManager
 from flask_principal import Principal 
-
 from .config import config
 
+# exp: connect to mongodb
 db = MongoEngine()
 
 login_manager = LoginManager()
@@ -19,9 +15,9 @@ login_manager.login_view = 'accounts.login'
 
 principals = Principal()
 
+
 def create_app(config_name):
-    app = Flask(__name__, 
-        template_folder=config[config_name].TEMPLATE_PATH, static_folder=config[config_name].STATIC_PATH)
+    app = Flask(__name__, template_folder=config[config_name].TEMPLATE_PATH, static_folder=config[config_name].STATIC_PATH)
     app.config.from_object(config[config_name])
 
     config[config_name].init_app(app)

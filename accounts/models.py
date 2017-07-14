@@ -1,14 +1,15 @@
 import datetime
-# from flask.ext.login import UserMixin
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from SlqBlog import db, login_manager
 
 # ROLES = ('admin', 'editor', 'writer', 'reader')
-ROLES = (('admin', 'admin'),
-            ('editor', 'editor'),
-            ('writer', 'writer'),
-            ('reader', 'reader'))
+ROLES = (
+    ('admin', 'admin'),
+    ('editor', 'editor'),
+    ('writer', 'writer'),
+    ('reader', 'reader')
+)
 SOCIAL_NETWORKS = {
     'weibo': {'fa_icon': 'fa fa-weibo', 'url': None},
     'weixin': {'fa_icon': 'fa fa-weixin', 'url': None},
@@ -17,6 +18,7 @@ SOCIAL_NETWORKS = {
     'facebook': {'fa_icon': 'fa fa-facebook', 'url': None},
     'linkedin': {'fa_icon': 'fa fa-linkedin', 'url': None},
 }
+
 
 class User(UserMixin, db.Document):
     username = db.StringField(max_length=255, required=True)
@@ -33,9 +35,10 @@ class User(UserMixin, db.Document):
     social_networks = db.DictField(default=SOCIAL_NETWORKS)
     homepage_url = db.URLField()
 
+    # exp: prevent password from getting directly
     @property
     def password(self):
-        raise AttributeError('password is not a readle attribute')
+        raise AttributeError('password is not a readable attribute')
 
     @password.setter
     def password(self, password):
@@ -50,11 +53,11 @@ class User(UserMixin, db.Document):
         except AttributeError:
             raise NotImplementedError('No `username` attribute - override `get_id`')
 
+    # exp: maybe convert username to utf-8
     def __unicode__(self):
         return self.username
 
 
-    
 @login_manager.user_loader
 def load_user(username):
     try:

@@ -2,8 +2,6 @@
 # -*- coding: utf-8 -*-
 
 from flask import current_app
-# from flask.ext.principal import Permission, RoleNeed, UserNeed, identity_loaded
-# from flask.ext.login import current_user
 from flask_principal import Permission, RoleNeed, UserNeed, identity_loaded
 from flask_login import current_user
 
@@ -20,7 +18,7 @@ writer_permission = Permission(RoleNeed('writer')).union(editor_permission)
 reader_permission = Permission(RoleNeed('reader')).union(writer_permission)
 
 
-@identity_loaded.connect # Both of this and the following works
+@identity_loaded.connect  # Both of this and the following works
 # @identity_loaded.connect_via(current_app)
 def on_identity_loaded(sender, identity):
     # Set the identity user object

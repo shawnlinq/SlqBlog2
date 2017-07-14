@@ -4,14 +4,13 @@
 import datetime
 from flask import render_template, redirect, request, flash, url_for, current_app, session, abort
 from flask.views import MethodView
-# from flask.ext.login import login_user, logout_user, login_required, current_user
-# from flask.ext.principal import Identity, AnonymousIdentity, identity_changed
 from flask_login import login_user, logout_user, login_required, current_user
 from flask_principal import Identity, AnonymousIdentity, identity_changed
 
 from . import models, forms
 from .permissions import admin_permission, su_permission
 from SlqBlog.config import SlqBlogSettings
+
 
 def login():
     form = forms.LoginForm()
@@ -32,6 +31,7 @@ def login():
 
     return render_template('accounts/login.html', form=form)
 
+
 @login_required
 def logout():
     logout_user()
@@ -44,6 +44,7 @@ def logout():
 
     flash('You have been logged out', 'success')
     return redirect(url_for('accounts.login'))
+
 
 def register(create_su=False):
     if not SlqBlogSettings['allow_registration']:
@@ -73,6 +74,7 @@ def register(create_su=False):
 
     return render_template('accounts/registration.html', form=form)
 
+
 @login_required
 def add_user():
     form = forms.RegistrationForm()
@@ -90,6 +92,7 @@ def add_user():
 
     return render_template('accounts/registration.html', form=form)
 
+
 def get_current_user():
     user = models.User.objects.get(username=current_user.username)
     return user
@@ -98,9 +101,11 @@ def get_current_user():
 class Users(MethodView):
     decorators = [login_required, admin_permission.require(401)]
     template_name = 'accounts/users.html'
+
     def get(self):
         users = models.User.objects.all()
         return render_template(self.template_name, users=users)
+
 
 class User(MethodView):
     decorators = [login_required, admin_permission.require(401)]
@@ -110,7 +115,7 @@ class User(MethodView):
         if not form:
             user = models.User.objects.get_or_404(username=username)
             form = forms.UserForm(obj=user)
-        data = {'form':form}
+        data = {'form': form}
         return data
 
     def get(self, username, form=None):
@@ -144,12 +149,15 @@ class User(MethodView):
         flash(msg, 'success')
         return redirect(url_for('accounts.users'))
 
+
 class SuUsers(MethodView):
     decorators = [login_required, su_permission.require(401)]
     template_name = 'accounts/su_users.html'
+
     def get(self):
         users = models.User.objects.all()
         return render_template(self.template_name, users=users)
+
 
 class SuUser(MethodView):
     decorators = [login_required, admin_permission.require(401)]
@@ -199,6 +207,7 @@ class SuUser(MethodView):
 
         return self.get(form)
 
+
 class Profile(MethodView):
     decorators = [login_required]
     template_name = 'accounts/settings.html'
@@ -243,6 +252,7 @@ class Profile(MethodView):
             return redirect(url_for('blog_admin.index'))
 
         return self.get(form)
+
 
 class Password(MethodView):
     decorators = [login_required]

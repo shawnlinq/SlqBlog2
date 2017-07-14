@@ -1,20 +1,13 @@
 #!/usr/bin/env python
-
-import os, sys
-sys.path.append(os.path.abspath(os.path.dirname(__file__)))
-
-# from flask.ext.script import Manager, Server
 from flask_script import Manager, Server
+from SlqBlog import app
 
 # from SlqBlog import create_app
 # app = create_app(os.getenv('config') or 'default')
 
-from SlqBlog import app
-
-
 manager = Manager(app)
 
-# Turn on debugger by default and reloader
+# exp: Turn on debugger by default and reloader
 manager.add_command("runserver", Server(
     use_debugger = True,
     use_reloader = True,
@@ -22,11 +15,13 @@ manager.add_command("runserver", Server(
     port = 5000)
 )
 
+# null
 @manager.command
 def test():
     import unittest
     tests = unittest.TestLoader().discover('tests')
     unittest.TextTestRunner(verbosity=2).run(tests)
 
+# exp: run app if not in import command
 if __name__ == "__main__":
     manager.run()
