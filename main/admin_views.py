@@ -5,7 +5,6 @@ import time, datetime, random, json, re, os
 
 from flask import request, redirect, render_template, url_for, abort, flash, g, current_app, send_from_directory
 from flask.views import MethodView
-# from flask.ext.login import current_user, login_required
 from flask_login import current_user, login_required
 import dateutil.parser
 
@@ -35,9 +34,11 @@ article_models = {
 #     'wechat': url_for('blog_admin.wechat_drafts'),
 # }
 
+
 def get_current_user(): 
     user = User.objects.get(username=current_user.get_id())
     return user
+
 
 class AdminIndex(MethodView):
     decorators = [login_required]
@@ -47,6 +48,7 @@ class AdminIndex(MethodView):
         blog_meta = SlqBlogSettings['blog_meta']
         user = get_current_user()
         return render_template(self.template_name, blog_meta=blog_meta, user=user)
+
 
 class PostsList(MethodView):
     decorators = [login_required]
@@ -69,9 +71,11 @@ class PostsList(MethodView):
 
         return render_template(self.template_name, posts=posts, post_type=post_type, is_draft=self.is_draft)
 
+
 class DraftList(PostsList):
     is_draft = True
     article_model = models.Draft
+
 
 class PostStatisticList(MethodView):
     decorators = [login_required, editor_permission.require(401)]
@@ -88,6 +92,7 @@ class PostStatisticList(MethodView):
         posts = posts.paginate(page=cur_page, per_page=PER_PAGE*2)
 
         return render_template(self.template_name, posts=posts)
+
 
 class PostStatisticDetail(MethodView):
     decorators = [login_required, editor_permission.require(401)]
@@ -108,6 +113,7 @@ class PostStatisticDetail(MethodView):
         data = {'post_statistics':post_statistics, 'trackers':trackers, 'post':post }
 
         return render_template(self.template_name, **data)
+
 
 class Post(MethodView):
     decorators = [login_required, writer_permission.require(401)]
@@ -141,14 +147,12 @@ class Post(MethodView):
         categories = models.Post.objects(post_type=post_type).distinct('category')
         tags = models.Post.objects(post_type=post_type).distinct('tags')
         
-        context = {'edit_flag':edit_flag, 'form':form, 'display_slug':display_slug, 
-            'categories':categories, 'tags':tags
+        context = {'edit_flag': edit_flag, 'form': form, 'display_slug': display_slug,
+        'categories': categories, 'tags': tags
         }
 
         # return context
         return render_template(self.template_name, **context)
-
-
 
     def post(self, slug=None, post_type='post', is_draft=False):
         article_model = article_models['post'] if request.form.get('publish') else article_models['draft']
@@ -178,7 +182,6 @@ class Post(MethodView):
         post.tags = [tag.strip() for tag in form.tags_str.data.split(',')] if form.tags_str.data else None
         post.post_type = form.post_type.data if form.post_type.data else None
 
-
         post_urls = {
             'post': url_for('blog_admin.posts'),
             'page': url_for('blog_admin.pages'),
@@ -190,8 +193,6 @@ class Post(MethodView):
             'page': url_for('blog_admin.page_drafts'),
             'wechat': url_for('blog_admin.wechat_drafts'),
         }
-
-        
 
         if request.form.get('publish'):
             post.is_draft = False
@@ -225,11 +226,8 @@ class Post(MethodView):
         else:
             return self.get(slug, form, is_draft)
 
-        
-
         flash(msg, 'success')
         return redirect(redirect_url)
-
 
     def delete(self, slug):
         if request.args.get('is_draft') and request.args.get('is_draft').lower()=='true':
@@ -252,13 +250,13 @@ class Post(MethodView):
         # if is_draft:
         #     redirect_url = redirect_url + '?draft=true'
 
-
         flash('Succeed to delete the {0}'.format(post_type), 'success')
 
         if request.args.get('ajax'):
             return 'success'
             
         return redirect(redirect_url)
+
 
 class SuPostsList(MethodView):
     decorators = [login_required, admin_permission.require(401)]
@@ -284,6 +282,7 @@ class SuPostsList(MethodView):
 
         return render_template(self.template_name, **data)
 
+
 class SuPost(MethodView):
     decorators = [login_required, admin_permission.require(401)]
     template_name = 'blog_admin/su_post.html'
@@ -299,8 +298,8 @@ class SuPost(MethodView):
         categories = models.Post.objects.distinct('category')
         tags = models.Post.objects.distinct('tags')
         
-        context = {'form':form, 'display_slug':slug, 'post': post,
-            'categories':categories, 'tags':tags, 'post_types': POST_TYPES, 
+        context = {'form': form, 'display_slug': slug, 'post': post,
+            'categories': categories, 'tags': tags, 'post_types': POST_TYPES,
         }
 
         return context
@@ -352,6 +351,7 @@ class SuPost(MethodView):
         flash('Succeed to update post', 'success')
         return redirect(redirect_url)
 
+
 class WidgetList(MethodView):
     decorators = [login_required, admin_permission.require(401)]
     template_name = 'blog_admin/widgets.html'
@@ -363,6 +363,7 @@ class WidgetList(MethodView):
         }
 
         return render_template(self.template_name, **data)
+
 
 class Widget(MethodView):
     decorators = [login_required, admin_permission.require(401)]
@@ -392,7 +393,6 @@ class Widget(MethodView):
         form = forms.WidgetForm(request.form)
         if not form.validate():
             return self.get(pk, form)
-
 
         if pk:
             widget = models.Widget.objects.get_or_404(id=pk)
@@ -424,7 +424,6 @@ class Widget(MethodView):
 
         return redirect(url_for('blog_admin.su_widgets'))
 
-
     def delete(self, pk):
         widget = models.Widget.objects.get_or_404(id=pk)
         widget.delete()
@@ -434,14 +433,15 @@ class Widget(MethodView):
 
         redirect_url = url_for('blog_admin.su_widgets')
 
-
         flash('Succeed to delete the widget', 'success')
             
         return redirect(redirect_url)
 
+
 class Comment(MethodView):
     decorators = [login_required, editor_permission.require(401)]
     template_name = 'blog_admin/comments.html'
+
     def get(self, status='pending', pk=None):
         if pk:
             return redirect(url_for('blog_admin.comments'))
@@ -474,7 +474,7 @@ class Comment(MethodView):
             return 'success'
 
         msg = 'The comment has been approved'
-        flask(msg, 'success')
+        flash(msg, 'success')
         return redirect(url_for('blog_admin.comments_approved'))
 
     def delete(self, pk):
@@ -485,8 +485,9 @@ class Comment(MethodView):
             return 'success'
 
         msg = 'The comment has been deleted'
-        flask(msg, 'success')
+        flash(msg, 'success')
         return redirect(url_for('blog_admin.comments_approved'))
+
 
 class ImportCommentView(MethodView):
     decorators = [login_required, editor_permission.require(401)]
@@ -516,6 +517,7 @@ class ImportCommentView(MethodView):
             return redirect(url_for('blog_admin.import_comments'))
 
         url_regx = re.compile('^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$')
+
         def clean_url(url):
             if not url:
                 return None
@@ -526,7 +528,6 @@ class ImportCommentView(MethodView):
                 return None
 
             return url
-
 
         imported_comments = comment_json['posts']
         for import_comment in imported_comments:
@@ -547,6 +548,7 @@ class ImportCommentView(MethodView):
         msg = 'Succeed to import comments'
         flash(msg, 'success')
         return redirect(url_for('blog_admin.comments_approved'))
+
 
 class SuExportView(MethodView):
     template_name = 'blog_admin/su_export.html'

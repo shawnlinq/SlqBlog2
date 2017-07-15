@@ -4,11 +4,12 @@ from blinker import Namespace
 from . import models, ext
 from SlqBlog.config import SlqBlogSettings
 
-search_engine_submit_urls = SlqBlogSettings['search_engine_submit_urls']
 
+search_engine_submit_urls = SlqBlogSettings['search_engine_submit_urls']
 slqblog_signals = Namespace()
 post_visited = slqblog_signals.signal('post-visited')
 post_pubished = slqblog_signals.signal('post-published')
+
 
 @post_visited.connect
 def on_post_visited(sender, post, **extra):

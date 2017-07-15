@@ -14,12 +14,10 @@ from flask_login import login_required, current_user
 from werkzeug.contrib.atom import AtomFeed
 from mongoengine.queryset.visitor import Q
 
-
 from . import models, signals, forms
 from accounts.models import User
 from accounts.permissions import admin_permission, editor_permission, writer_permission, reader_permission
 from SlqBlog.config import SlqBlogSettings
-
 
 PER_PAGE = SlqBlogSettings['pagination'].get('per_page', 10)
 ARCHIVE_PER_PAGE = SlqBlogSettings['pagination'].get('archive_per_page', 10)
@@ -28,11 +26,13 @@ ARCHIVE_PER_PAGE = SlqBlogSettings['pagination'].get('archive_per_page', 10)
 def get_base_data():
     pages = models.Post.objects.filter(post_type='page', is_draft=False)
     blog_meta = SlqBlogSettings['blog_meta']
-    data = {'blog_meta':blog_meta, 'pages':pages}
+    data = {'blog_meta': blog_meta, 'pages': pages}
     return data
+
 
 def index():
     return 'Hello'
+
 
 def list_posts():
     posts = models.Post.objects.filter(post_type='post', is_draft=False).order_by('-pub_time')
@@ -44,11 +44,9 @@ def list_posts():
     except ValueError:
         cur_page = 1
 
-
     cur_category = request.args.get('category')
     cur_tag = request.args.get('tag')
     keywords = request.args.get('keywords')
-
 
     if keywords:
         # posts = posts.filter(raw__contains=keywords )
@@ -60,22 +58,18 @@ def list_posts():
     if cur_tag:
         posts = posts.filter(tags=cur_tag)
 
-
-    #group by aggregate
+    # group by aggregate
     category_cursor = models.Post._get_collection().aggregate([
-            { '$group' :
-                { '_id' : {'category' : '$category' },
-                  'name' : { '$first' : '$category' },
-                  'count' : { '$sum' : 1 },
-                }
-            }
-        ])
+        {'$group':
+             {'_id': {'category': '$category'},
+              'name': {'$first': '$category'},
+              'count': {'$sum': 1},
+              }
+         }
+    ])
 
     widgets = models.Widget.objects(allow_post_types='post')
-
-
-
-
+    # exp: convert all posts to posts in pages
     posts = posts.paginate(page=cur_page, per_page=PER_PAGE)
 
     data = get_base_data()
@@ -89,6 +83,7 @@ def list_posts():
 
     return render_template('main/index.html', **data)
 
+
 def list_wechats():
     posts = models.Post.objects.filter(post_type='wechat', is_draft=False).order_by('-pub_time')
 
@@ -99,19 +94,15 @@ def list_wechats():
     except ValueError:
         cur_page = 1
 
-
     cur_tag = request.args.get('tag')
     keywords = request.args.get('keywords')
-
 
     if keywords:
         # posts = posts.filter(raw__contains=keywords )
         posts = posts.filter(Q(raw__contains=keywords) | Q(title__contains=keywords))
 
-
     if cur_tag:
         posts = posts.filter(tags=cur_tag)
-
 
     posts = posts.paginate(page=cur_page, per_page=PER_PAGE)
 
@@ -126,13 +117,16 @@ def list_wechats():
 
     return render_template('main/wechat_list.html', **data)
 
+
 def post_detail(slug, post_type='post', fix=False, is_preview=False):
     if is_preview:
         if not g.identity.can(reader_permission):
             abort(401)
         post = models.Draft.objects.get_or_404(slug=slug, post_type=post_type)
     else:
-        post = models.Post.objects.get_or_404(slug=slug, post_type=post_type) if not fix else models.Post.objects.get_or_404(fix_slug=slug, post_type=post_type)
+        post = models.Post.objects.get_or_404(slug=slug,
+                                              post_type=post_type) if not fix else models.Post.objects.get_or_404(
+            fix_slug=slug, post_type=post_type)
 
     # this block is abandoned
     if post.is_draft and current_user.is_anonymous:
@@ -145,10 +139,9 @@ def post_detail(slug, post_type='post', fix=False, is_preview=False):
     if request.form:
         form = forms.CommentForm(obj=request.form)
     else:
-        obj = {'author': session.get('author'), 'email': session.get('email'),'homepage': session.get('homepage'),}
+        obj = {'author': session.get('author'), 'email': session.get('email'), 'homepage': session.get('homepage'),}
         form = forms.CommentForm(**obj)
         # print session.get('email')
-
 
     if request.form.get('slq-comment') and form.validate_on_submit():
         slqblog_create_comment(form, post)
@@ -171,7 +164,8 @@ def post_detail(slug, post_type='post', fix=False, is_preview=False):
         comment_type = SlqBlogSettings['blog_comment']['comment_type']
         comment_shortname = SlqBlogSettings['blog_comment']['comment_opt'][comment_type]
         comment_func = get_comment_func(comment_type)
-        data['comment_html'] = comment_func(slug, post.title, request.base_url, comment_shortname, form=form) if comment_func else ''
+        data['comment_html'] = comment_func(slug, post.title, request.base_url, comment_shortname,
+                                            form=form) if comment_func else ''
 
     data['allow_share_article'] = SlqBlogSettings['allow_share_article']
     # if data['allow_share_article']:
@@ -189,13 +183,16 @@ def post_detail(slug, post_type='post', fix=False, is_preview=False):
 
     return render_template(templates[post_type], **data)
 
+
 def post_preview(slug, post_type='post'):
     return post_detail(slug=slug, post_type=post_type, is_preview=True)
 
+
 def post_detail_general(slug, post_type):
     is_preview = request.args.get('is_preview', 'false')
-    is_preview = True if is_preview.lower()=='true' else False
+    is_preview = True if is_preview.lower() == 'true' else False
     return post_detail(slug=slug, post_type=post_type, is_preview=is_preview)
+
 
 def author_detail(username):
     author = User.objects.get_or_404(username=username)
@@ -228,6 +225,7 @@ def get_comment_func(comment_type):
 
     return comment_func.get(comment_type)
 
+
 def slqblog_comment(post_id, post_title, post_url, comment_shortname, form=None, *args, **kwargs):
     template_name = 'main/comments.html'
     comments = models.Comment.objects(post_slug=post_id, status='approved').order_by('pub_time')
@@ -248,6 +246,7 @@ def slqblog_comment(post_id, post_title, post_url, comment_shortname, form=None,
         'slug': post_id,
     }
     return render_template(template_name, **data)
+
 
 def slqblog_create_comment(form, post):
     comment = models.Comment()
@@ -278,6 +277,7 @@ def duoshuo_comment(post_id, post_title, post_url, duoshuo_shortname, *args, **k
 
     return render_template(template_name, **data)
 
+
 # def jiathis_share():
 #     '''
 #     Create duoshuo script by params
@@ -306,8 +306,10 @@ def archive():
 
     return render_template('main/archive.html', **data)
 
+
 def make_external(url):
     return urljoin(request.url_root, url)
+
 
 def get_post_footer(allow_donate=False, donation_msg=None,
                     display_wechat=False, wechat_msg=None,
@@ -324,6 +326,7 @@ def get_post_footer(allow_donate=False, donation_msg=None,
     data['copyright_msg'] = copyright_msg
 
     return render_template(template_name, **data)
+
 
 def recent_feed():
     feed_title = SlqBlogSettings['blog_meta']['name']
@@ -346,7 +349,7 @@ def recent_feed():
     content = 'abstract' if only_abstract_in_feed else 'content_html'
     for post in posts:
         # return post.get_absolute_url()
-        feed.add(post.title, 
+        feed.add(post.title,
                  # unicode(post.content_html),
                  # post.abstract,
                  getattr(post, content),
@@ -357,9 +360,10 @@ def recent_feed():
                  published=post.pub_time)
     return feed.get_response()
 
+
 def sitemap():
     """Generate sitemap.xml. Makes a list of urls and date modified."""
-    pages=[]
+    pages = []
 
     #########################
     # static pages
@@ -405,7 +409,7 @@ def sitemap():
         pages.append((post.get_absolute_url(), post.update_time.date().isoformat(), 'weekly', '0.6'))
 
     sitemap_xml = render_template('main/sitemap.xml', pages=pages)
-    response= make_response(sitemap_xml)
+    response = make_response(sitemap_xml)
     response.headers["Content-Type"] = "application/xml"
 
     return response
