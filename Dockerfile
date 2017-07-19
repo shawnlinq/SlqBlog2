@@ -1,9 +1,8 @@
-# MAINTAINER        Gevin <flyhigher139@gmail.com>
 # DOCKER-VERSION    1.8.2
 #
 # Dockerizing Ubuntu: Dockerfile for building Ubuntu images
 FROM       ubuntu:14.04
-MAINTAINER Gevin <flyhigher139@gmail.com>
+MAINTAINER shawnlinq <shawn_linq@hotmail.com>
 # ADD sources.list /etc/apt/sources.list
 RUN apt-get update && apt-get install -y curl wget tar bzip2 unzip vim && \
     apt-get install -y nginx git build-essential python-dev python-pip && \
